@@ -58,10 +58,10 @@ public class ProdutoTeste {
         ProdutoDAO = new ProdutoDAO();
 
         Produto produto = new Produto();
-        produto.setCodigo("40");
+        produto.setCodigo("45");
        // assertTrue(countCad == 1);
 
-        Produto produtoBD = ProdutoDAO.buscar("40");
+        Produto produtoBD = ProdutoDAO.buscar("45");
         assertNotNull(produtoBD);
 
         assertEquals(produto.getCodigo(), produtoBD.getCodigo());
@@ -71,7 +71,55 @@ public class ProdutoTeste {
         //assertTrue(countDel == 1);
     }
 
+    @Test
+    public void buscaTest() throws Exception {
+        ProdutoDAO = new ProdutoDAO();
 
+        Produto produto = new Produto();
+        produto.setCodigo("45");
+        // assertTrue(countCad == 1);
+
+        Produto produtoBD = ProdutoDAO.buscar("45");
+        assertNotNull(produtoBD);
+
+        assertEquals(produto.getCodigo(), produtoBD.getCodigo());
+        //assertEquals(cliente.getNome(), clienteBD.getNome());
+
+        Integer countBus;
+                ProdutoDAO.buscar(String.valueOf(produtoBD));
+        //assertTrue(countDel == 1);
+    }
+
+    @Test
+    public void atualizarTest() throws Exception {
+        ProdutoDAO = new ProdutoDAO();
+
+        Produto produto = new Produto();
+        produto.setId((long) 31L);
+        produto.setCodigo("13");
+        produto.setDescricao("Salmão");
+        produto.setQuantidade(3);
+        produto.setValorUnitario(35.78);
+        produto.setValorTotal(107.34);
+
+        Integer countAtu = ProdutoDAO.atualizar(produto);
+        assertTrue(countAtu == 1);
+
+        Produto produtoBD = ProdutoDAO.buscar("13");
+        //assertNotNull(produtoBD);
+        assertEquals(produto.getId(), produtoBD.getId());
+        assertEquals(produto.getCodigo(), produtoBD.getCodigo());
+        assertEquals(produto.getDescricao(), produtoBD.getDescricao());
+        assertEquals(produto.getQuantidade(), produtoBD.getQuantidade());
+        assertEquals(produto.getValorUnitario(), produtoBD.getValorUnitario());
+        assertEquals(produto.getValorTotal(), produtoBD.getValorTotal());
+
+        //assertEquals(produto.getId(), produtoBD.getId());
+        //assertEquals(cliente.getNome(), clienteBD.getNome());
+
+        //Integer countAtu = ProdutoDAO.atualizar(produtoBD);
+        //assertTrue(countDel == 1);
+    }
 }
 
     
