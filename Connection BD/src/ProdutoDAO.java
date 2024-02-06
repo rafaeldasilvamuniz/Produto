@@ -56,6 +56,7 @@ public class ProdutoDAO implements IProdutoDAO {
 
 	@Override
 	public Produto buscar(String codigo) throws Exception {
+	 //public Produto buscar(Integer ide) throws Exception {
 		Connection connection = null;
     	PreparedStatement stm = null;
     	ResultSet rs = null;
@@ -70,13 +71,13 @@ public class ProdutoDAO implements IProdutoDAO {
 			
 		    if (rs.next()) {
 		    	produto = new Produto();
-		    	Long id = rs.getLong("ID");
+		    	Integer id = rs.getInt("ID");
 		    	String cd = rs.getString("CODIGO");
 				String desc = rs.getString("DESCRICAO");
 				Integer qtd = rs.getInt("QUANTIDADE");
                 Double vu = rs.getDouble("VALORUNITARIO");
 				Double vt = rs.getDouble("VALORTOTAL");
-		    	produto.setId(id);
+		    	produto.setId(Long.valueOf(id));
 		    	produto.setCodigo(cd);
 				produto.setDescricao(desc);
 				produto.setQuantidade(qtd);
@@ -125,13 +126,13 @@ public class ProdutoDAO implements IProdutoDAO {
 			
 		    while (rs.next()) {
 				produto = new Produto();
-				Long id = rs.getLong("ID");
+				Integer id = rs.getInt("ID");
 				String cd = rs.getString("CODIGO");
 				String desc = rs.getString("DESCRICAO");
 				Integer qtd = rs.getInt("QUANTIDADE");
 				Double vu = rs.getDouble("VALORUNITARIO");
 				Double vt = rs.getDouble("VALORTOTAL");
-				produto.setId(id);
+				produto.setId(Long.valueOf(id));
 				produto.setCodigo(cd);
 				produto.setDescricao(desc);
 				produto.setQuantidade(qtd);
@@ -145,13 +146,13 @@ public class ProdutoDAO implements IProdutoDAO {
 		}
 		return list;
 	}
-	
-	private String getSqlInsert() {
-		StringBuilder sb = new StringBuilder();
-		sb.append("INSERT INTO PRODUTO (ID, CODIGO, DESCRICAO, QUANTIDADE, VALORUNITARIO, VALORTOTAL) ");
-		sb.append("VALUES (nextval('SQ_PRODUTO'),?,?,?,?,?)");
+
+	private String getSqlInsert() { StringBuilder sb = new StringBuilder();
+		sb.append("INSERT INTO PRODUTO (CODIGO, DESCRICAO, QUANTIDADE, VALORUNITARIO, VALORTOTAL) ");
+		sb.append("VALUES (?,?,?,?,?)");
 		return sb.toString();
 	}
+
 	
 	private void adicionarParametrosInsert(PreparedStatement stm, Produto produto) throws SQLException {
 		stm.setString(1, produto.getCodigo());
@@ -164,7 +165,7 @@ public class ProdutoDAO implements IProdutoDAO {
 	private String getSqlUpdate() {
 		StringBuilder sb = new StringBuilder();
 		sb.append("UPDATE PRODUTO ");
-		sb.append("SET CODIGO = ?, DESCRICAO = ? , QUANTIDADE = ?, VALORUNITARIO = ?, VALORTOTAL = ?");
+		sb.append("SET CODIGO = ?, DESCRICAO = ? , QUANTIDADE = ?, VALORUNITARIO = ?, VALORTOTAL = ? ");
 		sb.append("WHERE ID = ?");
 		return sb.toString();
 	}
@@ -181,7 +182,7 @@ public class ProdutoDAO implements IProdutoDAO {
 	
 	private String getSqlDelete() {
 		StringBuilder sb = new StringBuilder();
-		sb.append("DELETE FROM PRODUTO");
+		sb.append("DELETE FROM PRODUTO ");
 		sb.append("WHERE CODIGO = ?");
 		return sb.toString();
 	}
